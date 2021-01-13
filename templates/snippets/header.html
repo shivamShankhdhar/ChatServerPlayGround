@@ -6,7 +6,7 @@
 	<!-- MEDIUM+ SCREENS -->
 	<div class="d-none d-md-flex flex-row my-auto flex-grow-1 align-items-center">
 		<h5 class="mr-3 font-weight-normal justify-content-start">
-			<a class="p-2 text-dark" href="{% url 'home' %}">Home</a>
+			<a class="btn btn-lg btn-light" href="{% url 'home' %}">Home</a>
 		</h5>
 		<form class="search-bar justify-content-start">
 			<input type="text" class="form-control" name="q" id="id_q_large" placeholder="Search...">
@@ -38,7 +38,7 @@
 							</div>
 
 							<div class="btn-group dropleft">
-								<img class="account-image rounded-circle m-auto d-block dropdown-toggle" id="id_profile_links" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" src="{% static 'codingwithmitch/dummy_image.png' %}" alt="codingwithmitch logo" width="40" height="40">
+								<img class="account-image rounded-circle m-auto d-block dropdown-toggle" id="id_profile_links" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" src="{{request.user.profile_image.url}}" alt="default logo" width="40" height="40">
 								<div class="dropdown-menu" aria-labelledby="id_profile_links">
 									<a class="dropdown-item" href="#">Account</a>
 									<a class="dropdown-item" href="#">Logout</a>
@@ -48,8 +48,8 @@
 						
 					</div>
 				{% else %}
-					<a class="p-2 text-dark" href="#">Login</a>
-					<a class="btn btn-outline-primary" href="#">Register</a>
+					<a class="btn btn-sm btn-secondary" href="#">Login</a>
+					<a class="btn btn-sm btn-success" href="{% url 'register' %}">Register</a>
 				{% endif %}	
 			</nav>
 		</div>
@@ -59,10 +59,11 @@
 	<!-- SMALL SCREENS -->
 	<div class="d-flex d-md-none flex-column my-auto align-items-center">
 		<h5 class="font-weight-normal">
-		<a class="p-2 text-dark" href="{% url 'home' %}">Home</a>
+		<a class="btn btn-lg btn-light" href="{% url 'home' %}">Home</a>
 		</h5>
 		<form class="search-bar justify-content-start" >
 			<input type="text" class="form-control" name="q" id="id_q_small" placeholder="Search...">
+			
 		</form>
 		<div class="d-flex flex-row-reverse flex-grow-1">
 			<nav class="">
@@ -70,7 +71,7 @@
 				<div class="dropdown dropleft p-2 mt-2">
 					<div class="d-flex flex-row">
 						<div class="btn-group dropleft">
-							<img class="account-image rounded-circle m-auto d-block dropdown-toggle" id="id_profile_links" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" src="{% static 'codingwithmitch/dummy_image.png' %}" alt="codingwithmitch logo" width="40" height="40">
+							<img class="account-image rounded-circle m-auto d-block dropdown-toggle" id="id_profile_links" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" src="{% static 'default/default.png' %}" alt="avatar" width="40" height="40">
 							<div class="dropdown-menu" aria-labelledby="id_profile_links">
 								<a class="dropdown-item" href="#">Account</a>
 								<a class="dropdown-item" href="#">Logout</a>
@@ -79,8 +80,8 @@
 					</div>
 				</div>
 				{% else %}
-					<a class="p-2 text-dark" href="#">Login</a>
-					<a class="btn btn-outline-primary m-2" href="#">Register</a>
+					<a class="btn btn-sm btn-secondary" href="#">Login</a>
+					<a class="btn btn-sm btn-success m-2" href="{% url 'register' %}">Register</a>
 				{% endif %}	
 			</nav>
 	  	</div>

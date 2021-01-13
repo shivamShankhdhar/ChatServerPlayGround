@@ -30,6 +30,15 @@
 	}
 </style>
 <div class="main">
+	<!-- messages or alerts -->
+	{% if messages %}
+		{% for message in messages %}
+			<div class="alert alert-{{message.tags}} text-center" role="alert">
+			  	<strong> {{ message }}</strong>
+			</div>			
+		{% endfor %}
+	{% endif %}
+<!-- block content  -->
 	{% block content %}
 
 	{% endblock content %}
