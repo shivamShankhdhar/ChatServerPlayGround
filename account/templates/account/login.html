@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% block title %}User Login {% endblock title %}
 {% block content %}
 
 
@@ -51,11 +52,11 @@
 
 				{% endif %}
 
-				<button class="btn btn-sm btn-success mt-2" type="submit" style="width: 100%">Log in</button>
+				<button class="btn btn-sm btn-primary mt-3" type="submit" style="width: 100%">Log in</button>
 				</form>
 
 				<div class="d-flex flex-column my-2">
-					<a class=" btn btn-sm btn-primary" href="{% url 'password_reset' %}">Reset password</a>
+					<a class="p-1 text-center " href="{% url 'password_reset' %}">Reset password</a>
 				</div>
 		  </div>
 		</div>
