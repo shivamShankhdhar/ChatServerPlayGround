@@ -70,11 +70,11 @@
 <div class="container-fluid">
 	<div class="d-flex flex-row justify-content-center flex-wrap align-items-start">
 
-		<div class="card profile-card m-2">
-		  <div class="card-body">
-		  	<div class="d-flex flex-column justify-content-center p-4">
-		  		<div class="image-container mx-auto mb-4">
-		  			<img class="d-block border border-dark rounded-circle img-fluid mx-auto profile-image" alt="avatar" id="id_profile_image" src="{{profile_image}}">
+		<div class="card profile-card m-2 col-lg-4 col-sm-8 col-md-8">
+		  <div class="card-body ">
+		  	<div class="d-flex flex-column justify-content-center p-4 ">
+		  		<div class="image-container mx-auto mb-4" style="width: 250px; height: 250px">
+		  			<img class="d-block border rounded-circle img-fluid mx-auto profile-image" alt="avatar" id="id_profile_image" src="{{profile_image}}">
 		  		</div>
 		  		<p class="mt-4 mb-1 field-heading">Email</p>
 		  		{%  if is_self %}
@@ -91,7 +91,7 @@
 
 		  		<!-- If Auth user is viewing their own profile -->
 		  		{% if is_self %}
-		  		<a  class="mt-4 btn btn-primary" href="{% url 'account:edit' user_id=id %}">Update</a>
+		  		<a  class="mt-4 btn btn-primary btn-sm" href="{% url 'account:edit' user_id=id %}">Update</a>
 				<div class="d-flex flex-column mt-4">
 					<a class="m-auto" href="{% url 'password_change' %}">Change password</a>
 				</div>
@@ -114,7 +114,7 @@
 			</div>
 			{% endif %}
 
-			<div class="card m-2 px-4 pb-4 ">
+			<div class=" m-2 px-4 pb-4 ">
 				<!-- Cancel Friend Request / Send Friend Request / Remove Friend -->
 				{% if is_friend == False and is_self == False %}
 						<!-- You sent them a request -->
@@ -149,10 +149,10 @@
 				
 				<!-- TODO -->
 				<!-- Friend list link -->
-		  		<div class="d-flex flex-column pt-4 ">
-					<a href="#"  style="text-decoration: none;">
-						<div class="d-flex flex-row align-items-center justify-content-center icon-container">
-							<span class="material-icons mr-2 friends-icon">contact_page</span><span class="friend-text">Friends (0)</span>
+		  		<div class=" btn" style="width: 200px;text-align: center;line-height: 30px;background-color: #000">
+					<a href="#"  style="text-decoration: none;color: #fff">
+						<div class="d-flex flex-row ">
+							<span class="material-icons" style="margin-right: 3px">people</span> <span class="">Friends ( 0 )</span>
 						</div>
 					</a>
 				</div>
@@ -161,12 +161,12 @@
 
 			<!-- TODO -->
 			{#% if friend_requests %#}
-			<div class="card m-2 px-4 pb-4">
+			<div class=" mx-2 px-4 pb-4 ">
 				<!-- Friend requests -->
-		  		<div class="d-flex flex-column pt-4">
-					<a href="#" style="text-decoration: none;">
-						<div class="d-flex flex-row align-items-center justify-content-center icon-container">
-							<span class="material-icons mr-2 person-add-icon">person_add</span><span class="friend-text">Friend Requests (0)</span>
+		  		<div class=" btn btn-primary " style="width: 200px;text-align: center;line-height: 30px;background-color: #000;border: none;">
+					<a href="#" style="text-decoration: none;color: #fff">
+						<div class="d-flex flex-row ">
+							<span class="material-icons " style="margin-right: 1px">playlist_add</span> <span class="">Friend Requests ( 0 )</span>
 						</div>
 					</a>
 				</div>
