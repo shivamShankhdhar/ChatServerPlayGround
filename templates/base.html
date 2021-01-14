@@ -33,7 +33,7 @@
 	<!-- messages or alerts -->
 	{% if messages %}
 		{% for message in messages %}
-			<div class="alert alert-{{message.tags}} text-center" role="alert">
+			<div class="alert alert-{{message.tags}} text-center" id="messagesAlert" role="alert">
 			  	<strong> {{ message }}</strong>
 			</div>			
 		{% endfor %}
