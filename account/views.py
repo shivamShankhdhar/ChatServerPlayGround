@@ -8,7 +8,7 @@ from django.conf import settings
 from django.http import HttpResponse
 from django.contrib.auth import login, authenticate, logout
 
-from account.forms import RegistrationForm, AccountAuthenticationForm
+from account.forms import RegistrationForm, AccountAuthenticationForm, AccountUpdateForm
 
 
 
@@ -120,6 +120,8 @@ def account_search_view(request, *args, **kwargs):
 	context = {}
 	if request.method == "GET":
 		serach_query = request.GET.get("q")
+		# print(serach_query)
+		context['serach_query'] = serach_query
 		if len(serach_query) > 0:
 			search_results = Account.objects.filter(email__icontains = serach_query).filter(username__icontains = serach_query).distinct()
 			# user = request.user
@@ -132,5 +134,52 @@ def account_search_view(request, *args, **kwargs):
 
 	return render(request, template_name, context)
 
+
+def edit_account_view(request, *args, **kwargs):
+	template_name = "account/edit_account.html"
+
+	if not request.user.is_authenticated:
+		return redirect("login")
+	user_id = kwargs.get("user_id")
+	try:
+		account = Account.objects.get(pk = user_id)
+	except Account.DoesNotExist:	
+		return HttpResponse("Something went wrong.")
+	if account.pk != request.user.pk:
+		return HttpResponse("You can't edit someone else profile.")
+	context  = {}	
+	if request.POST:
+		form = AccountUpdateForm(request.POST, request.FILES, instance = request.user)
+		if form.is_valid():
+			form.save()
+			return redirect("account:view", user_id = account.pk)
+		else:
+			# when the form is invalid populate the form with the initial values
+			form = AccountUpdateForm(request.POST, instance = request.user, 
+				initial = {
+					'id':account.pk,
+					'email':account.email,
+					'username':account.username,
+					'profile_image':account.profile_image,
+					'hide_email':account.hide_email,
+					'is_private':account.is_private,
+				}
+			)
+			context['form'] = form
+	# when the request is not post request
+	else:
+		form = AccountUpdateForm(
+			initial = {
+				'id':account.pk,
+				'email':account.email,
+				'username':account.username,
+				'profile_image':account.profile_image,
+				'hide_email':account.hide_email,
+				'is_private':account.is_private,
+			}
+		)
+		context['form'] = form
+	context['DATA_UPLOAD_MAX_MEMORY_SIZE'] = settings.DATA_UPLOAD_MAX_MEMORY_SIZE
+	return render(request, template_name, context)
 
 
