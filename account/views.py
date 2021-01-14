@@ -90,8 +90,8 @@ def account_view(request, *args, **kwargs):
 	user_id 		= kwargs.get("user_id")
 	try:
 		account 	= Account.objects.get(pk = user_id)
-	except Account.DoesNotExists:
-		return HttpResponse("That user doesn't exist.")
+	except Account.DoesNotExist:
+		return HttpResponse("<center><h1>Account doesn't exist.</h1></center>")
 	if account:
 		context['id'] 			 = account.id
 		context['username'] 	 = account.username
@@ -115,6 +115,22 @@ def account_view(request, *args, **kwargs):
 
 		return render(request, template_name, context)
 
+def account_search_view(request, *args, **kwargs):
+	template_name = 'account/search_result.html'
+	context = {}
+	if request.method == "GET":
+		serach_query = request.GET.get("q")
+		if len(serach_query) > 0:
+			search_results = Account.objects.filter(email__icontains = serach_query).filter(username__icontains = serach_query).distinct()
+			# user = request.user
+			accounts = [] #[(account1, True/False),(account2, True/False) ] in this list logic goes as --- index:0- account index:1 friend status
+			for account in search_results:
+				accounts.append((account, False))
+			context['accounts'] = accounts
+		# 	context['serach_query'] = serach_query
+		# context['serach_query'] = serach_query
+
+	return render(request, template_name, context)
 
 
 
