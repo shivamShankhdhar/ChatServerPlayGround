@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
 # messages 
 from django.contrib import messages
+from account.models import Account
+# settings 
+from django.conf import settings
 
 from django.http import HttpResponse
 from django.contrib.auth import login, authenticate, logout
@@ -37,8 +40,6 @@ def register_view(request, *args, **kwargs):
 
 	return render(request, template_name, context)
 
-
-
 def login_view(request, *args, **kwargs):
 	template_name = 'account/login.html'
 	context = {}
@@ -74,4 +75,46 @@ def logout_view(request):
 	logout(request)
 	messages.success(request, "User Logged out Successfully .")
 	return redirect("home")
+
+
+def account_view(request, *args, **kwargs):
+	# Logic-
+	# 	is_self :
+	# 		is_friend:
+	# 			-1: NO_REQUEST_SENT
+	# 			 0: THEM SENT_TO_YOU
+	# 			 1:YOU_SENT_THEM
+
+	template_name 	= 'account/account.html'
+	context		  	= {}
+	user_id 		= kwargs.get("user_id")
+	try:
+		account 	= Account.objects.get(pk = user_id)
+	except Account.DoesNotExists:
+		return HttpResponse("That user doesn't exist.")
+	if account:
+		context['id'] 			 = account.id
+		context['username'] 	 = account.username
+		context['email'] 		 = account.email
+		context['profile_image'] = account.profile_image.url
+		context['hide_email'] 	 = account.hide_email
+
+		# state template variables
+		is_self = True
+		is_friend = False
+		user = request.user
+
+		# check for user authenticated and not looking for own profile
+		if user.is_authenticated and user != account:
+			is_self = False 	
+		elif not user.is_authenticated:
+			is_self = False
+		context['is_self'] = is_self
+		context['is_friend'] = is_friend
+		context['BASE_URL'] = settings.BASE_URL
+
+		return render(request, template_name, context)
+
+
+
 
