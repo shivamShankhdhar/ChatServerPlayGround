@@ -8,8 +8,9 @@
 		<h5 class="mr-3 font-weight-normal justify-content-start">
 			<a class="btn btn-lg btn-light" href="{% url 'home' %}">Home</a>
 		</h5>
-		<form class="search-bar justify-content-start">
-			<input type="text" class="form-control" name="q" id="id_q_large" placeholder="Search...">
+		<form class="search-bar justify-content-start" style="margin-left: 120px" onsubmit="return executeQuery();">
+			<input type="text" class="form-control " style="width: 400px;border:1px solid #000;" name="q" id="id_q_large" placeholder="Search friends (Type and Enter)...">
+			<!-- <button class="btn btn-sm btn-primary" type="submit" >Search</button> -->
 		</form>
 
 		<div class="d-flex flex-row-reverse flex-grow-1">
@@ -61,7 +62,7 @@
 		<h5 class="font-weight-normal">
 		<a class="btn btn-lg btn-light" href="{% url 'home' %}">Home</a>
 		</h5>
-		<form class="search-bar justify-content-start" >
+		<form class="search-bar justify-content-start" onsubmit="return executeQuery();">
 			<input type="text" class="form-control" name="q" id="id_q_small" placeholder="Search...">
 			
 		</form>
@@ -88,3 +89,19 @@
 	</div>
 	<!-- END SMALL SCREENS -->
 </div>
+<script type="text/javascript">
+	function executeQuery(){
+		var query = document.getElementById('id_q_small').value
+		if (query == ""){
+			query = document.getElementById("id_q_large").value
+			// if (query == " "){
+			// window.location.replace("{% url 'search' %}?q=" + "None" )
+			// }
+		}
+		// else if (query == ""){
+				
+		// }
+		window.location.replace("{% url 'search' %}?q=" + query )
+		return false
+	}
+</script>
