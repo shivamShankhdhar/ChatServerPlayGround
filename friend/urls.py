@@ -5,6 +5,7 @@ from friend.views import(
 	friend_request_view,
 	accept_friend_request,
 	remove_friend,
+	decline_friend_request,
 )
 
 app_name = 'friend'
@@ -14,4 +15,5 @@ urlpatterns = [
     path('friend_request/', send_friend_request, name='friend-request'),
     path('friend_requests/<user_id>/', friend_request_view, name='friend-requests'),
     path('friend_request_accept/<friend_request_id>/', accept_friend_request, name='friend-request-accept'),
+    path('decline_friend_request/<friend_request_id>/', decline_friend_request, name='friend-request-decline'),
 ]

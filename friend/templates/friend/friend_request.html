@@ -68,7 +68,7 @@
 		
 		{% else %} <!-- If no friends -->
 		<div class="d-flex flex-row flex-grow-1 justify-content-center align-items-center p-4">
-			<p>No results</p>
+			<p style="font-size: 20px;font-weight: bold;">No Pending Requests</p>
 		</div>
 		{% endif %}
 		</div>
@@ -96,6 +96,6 @@
 </script>
 
 {% include 'friend/snippets/accept_friend_request.html' %}
-{#% include 'friend/snippets/decline_friend_request.html' %#}
+{% include 'friend/snippets/decline_friend_request.html' %}
 
 {% endblock content %}
