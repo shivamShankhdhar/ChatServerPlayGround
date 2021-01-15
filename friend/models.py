@@ -63,7 +63,7 @@ class FriendRequest(models.Model):
 		Accept a friend request
 		update both SENDER and RECEIVER friend lists
 		"""
-		receiver_friend_list = FriendList.objects.get(username = self.receiver)
+		receiver_friend_list = FriendList.objects.get(user = self.receiver)
 		if receiver_friend_list:
 			receiver_friend_list.add_friend(self.sender)
 			sender_friend_list = FriendList.objects.get(user = self.sender)
