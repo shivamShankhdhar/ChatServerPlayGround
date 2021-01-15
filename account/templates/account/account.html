@@ -121,14 +121,14 @@
 						{% if request_sent == 1 %}
 						<div class="d-flex flex-column align-items-center pt-4">
 							<button class="btn btn-danger" id="id_cancel_friend_request_btn">
-								Cancel Friend Request
+								Cancel Friend Request <span class="material-icons">send</span>
 							</button>
 						</div>
 						{% endif %}
 						<!-- No requests have been sent -->
 						{% if request_sent == -1 %}
 						<div class="d-flex flex-column align-items-center pt-4">
-							<button class="btn btn-primary" id="id_send_friend_request_btn">
+							<button class="btn btn-primary" id="id_send_friend_request_btn" style="width: 200px;text-align: center;line-height: 30px;background-color: #000;border: none;margin-bottom: 10px">
 								Send Friend Request
 							</button>
 						</div>
@@ -152,26 +152,26 @@
 		  		<div class=" btn" style="width: 200px;text-align: center;line-height: 30px;background-color: #000">
 					<a href="#"  style="text-decoration: none;color: #fff">
 						<div class="d-flex flex-row ">
-							<span class="material-icons" style="margin-right: 3px">people</span> <span class="">Friends ( 0 )</span>
+							<span class="material-icons" style="margin-right: 3px">people</span> <span class="">Friends ( {{friends|length}} )</span>
 						</div>
 					</a>
 				</div>
 
 			</div>
 
-			<!-- TODO -->
-			{#% if friend_requests %#}
+			
+			{% if friend_requests %}
 			<div class=" mx-2 px-4 pb-4 ">
 				<!-- Friend requests -->
 		  		<div class=" btn btn-primary " style="width: 200px;text-align: center;line-height: 30px;background-color: #000;border: none;">
 					<a href="#" style="text-decoration: none;color: #fff">
 						<div class="d-flex flex-row ">
-							<span class="material-icons " style="margin-right: 1px">playlist_add</span> <span class="">Friend Requests ( 0 )</span>
+							<span class="material-icons " style="margin-right: 1px">playlist_add</span> <span class="">Friend Requests ( {{friend_requests|length}} )</span>
 						</div>
 					</a>
 				</div>
 			</div>
-			{#% endif %#}
+			{% endif %}
 
 			{% if is_friend %}
 				<div class="d-flex flex-row align-items-center btn btn-primary m-2 px-4" onclick="createOrReturnPrivateChat('{{id}}')">
