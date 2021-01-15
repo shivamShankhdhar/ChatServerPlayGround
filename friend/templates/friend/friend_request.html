@@ -1,9 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-
 {% block content %}
-
-
 <style type="text/css">
 	.profile-image{
 		max-height: 100px;
@@ -43,11 +40,10 @@
 
 <div class="container">
 	<div class="card p-2">
-
 		{% if friend_requests %}
-		<div class="d-flex flex-row flex-wrap">
+		<div class="d-flex flex-row flex-wrap mt-5">
 		{% for request in friend_requests %}
-		<div class="card flex-row flex-grow-1 p-2 mx-2 my-2 align-items-center">
+		<div class="card flex-row flex-grow-1 p-2 mx-2 my-2 align-items-center" style="background-color: #D0D0D0">
 			<a class="profile-link" href="{% url 'account:view' user_id=request.sender.id %}">
 				<div class="card-image m-2">
 					<img class="img-fluid profile-image" src="{{request.sender.profile_image.url}}" alt="">
@@ -59,8 +55,9 @@
 				</div>
 			</a>
 			<div class="d-flex flex-row card-right flex-grow-1 justify-content-end mx-2">
-	  			<span id="id_cancel_{{request.sender.id}}" class="decline-friend-request material-icons p-1" onclick='triggerDeclineFriendRequest("{{request.id}}")'>cancel</span>
-	  			<span id="id_confirm_{{request.sender.id}}" class="confirm-friend-request material-icons p-1" onclick='triggerAcceptFriendRequest("{{request.id}}")'>check</span>
+				<button id="id_cancel_{{request.sender.id}}" class="btn btn-sm btn-danger" onclick='triggerDeclineFriendRequest("{{request.id}}")'>Decline</button>
+	  			
+	  			<buttom  id="id_confirm_{{request.sender.id}}" class="btn btn-sm btn-success " style= "margin-left: 5px;" onclick='triggerAcceptFriendRequest("{{request.id}}")'>Accept</btn>
 			</div>
 		</div>
 		{% if forloop.counter|divisibleby:1 %}
@@ -98,8 +95,7 @@
 	}
 </script>
 
-{#% include 'friend/snippets/accept_friend_request.html' %#}
+{% include 'friend/snippets/accept_friend_request.html' %}
 {#% include 'friend/snippets/decline_friend_request.html' %#}
-
 
 {% endblock content %}
