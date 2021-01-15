@@ -2,7 +2,9 @@ from django.http import HttpResponse
 import json
 from django.shortcuts import render, redirect
 from account.models import Account
-from friend.models import FriendRequest
+from friend.models import FriendRequest,FriendList
+import cgitb
+
 
 def friend_request_view(request, *args, **kwargs):
 	template_name = 'friend/friend_request.html'
@@ -11,7 +13,7 @@ def friend_request_view(request, *args, **kwargs):
 	print(user.id)
 	if user.is_authenticated:
 		user_id = kwargs.get("user_id")
-		print(user_id)
+		# print(user_id)
 		account = Account.objects.get(pk=user_id)
 		if account == user:
 			friend_requests = FriendRequest.objects.filter(receiver = account, is_active = True)
@@ -63,8 +65,10 @@ def accept_friend_request(request, *args, **kwargs):
 	payload = {}
 	if request.method == "GET" and user.is_authenticated:
 		friend_request_id = kwargs.get("friend_request_id")
+		# print(f"friend request id {friend_request_id}")
 		if friend_request_id:
 			friend_request = FriendRequest.objects.get(pk=friend_request_id)
+			# print(f"friend request object {friend_request}")
 			# confirm that is the correct request
 			if friend_request.receiver == user:
 				if friend_request: 
@@ -82,3 +86,24 @@ def accept_friend_request(request, *args, **kwargs):
 		# should never happen
 		payload['response'] = "You must be authenticated to accept a friend request."
 	return HttpResponse(json.dumps(payload), content_type="application/json")
+	
+
+
+def remove_friend(request, *args, **kwargs):
+	user = request.user
+	payload = {}
+	if request.method == "POST" and user.is_authenticated:
+		user_id = request.POST.get('receiver_user_id')
+		if user_id:
+			try:
+				removee  = Account.objects.get(pk = user_id)
+				remover_friend_list = FriendList.objects.get(user = user)
+				remover_friend_list.unfriend(removee)
+				payload['response'] = "Successfully removed that friend."
+			except Exception as e:
+				payload['response'] = f"Something went wrong: {str(e)}."
+		else:
+			payload['response'] = "There was an error. Unable to remove that friend."
+	else:
+		payload['response'] = "You must be authenticated to remove a friend."
+	return HttpResponse(json.dumps(payload), content_type = "application/json")
