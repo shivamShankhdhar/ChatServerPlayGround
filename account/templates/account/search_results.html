@@ -1,10 +1,7 @@
 {% extends 'base.html' %}
-{% block title %}Search result {% endblock title %}
+{% block title %} Search result {% endblock title %}
 {% load static %}
-
 {% block content %}
-
-
 <style type="text/css">
 	.profile-image{
 		max-height: 100px;
@@ -41,14 +38,12 @@
 		color: red;
 	}
 </style>
-
 <div class="container">
 	<div class="card p-2">
-
 		{% if accounts %}
 		<div class="d-flex flex-row flex-wrap">
 		{% for account in accounts %}
-		<div class="card flex-row flex-grow-1 p-2 mx-2 my-2 align-items-center">
+		<div class="card flex-row flex-grow-1 p-2 mx-2 my-2 align-items-center" style="background-color: #D0D0D0">
 			<a class="profile-link" href="{% url 'account:view' user_id=account.0.id %}">
 				<div class="card-image m-2">
 					<img class="img-fluid profile-image" src="{{account.0.profile_image.url}}" alt="">
@@ -60,37 +55,24 @@
 					{% if account.1 %}
 					<p class="card-text"><a href="#" onclick="createOrReturnPrivateChat('{{account.0.id}}')">Send a Message</a></p>
 					{% endif %}
-					
 				</div>
 			</a>
 			<div class="d-flex flex-row card-right flex-grow-1 justify-content-end mx-2">
 				{% if account.1 %}
-					<div class="d-flex flex-row friends-text-container p-3">
-						<p class="friends-text m-auto">
-							Friends 
-						</p>
-						<span class="material-icons checkmark-icon m-auto pl-2">
-						check_circle_outline
-						</span>
+					<div class="d-flex flex-row ">
+						
+						<button class="btn btn-sm btn-success" style="cursor: none;">Friends</button>
 					</div>
 				{% else %}
 					{% if account.0 !=  request.user %}
-						<div class="d-flex flex-row friends-text-container p-3">
-							<p class="friends-text m-auto">
-								Not Friends 
-							</p>
-							<span class="material-icons cancel-icon m-auto pl-2">cancel</span>
+						<div class="d-flex flex-row ">
+							<button class="btn btn-sm btn-danger" style="cursor: none;">Not Friend</button>
 						</div>
 					{% endif %}
 				{% endif %}
 				{% if account.0 == request.user %}
-					<div class="d-flex flex-row friends-text-container p-3">
-						<p class="friends-text m-auto">
-							This is you 
-						</p>
-						<span class="material-icons m-auto pl-2">
-						person_pin
-						</span>
+					<div class="d-flex flex-row ">
+						<button class="btn btn-sm btn-primary" style="cursor: none;"></button>
 					</div>
 				{% endif %}
 			</div>
@@ -107,10 +89,7 @@
 		{% endif %}
 		</div>
 	</div>
-	
 </div>
-
-
 {#%  include 'chat/create_or_return_private_chat.html' %#}
 
 <script type="text/javascript">

@@ -107,9 +107,9 @@
 			{% if request_sent == 0 %}
 			<div class="card m-2 p-4">
 				<div class="d-flex flex-row align-items-center">
-					<span class="friend-text align-items-center mr-2">Accept Friend Request</span>
-					<span id="id_cancel_{{id}}" class="decline-friend-request material-icons p-1" onclick='triggerDeclineFriendRequest("{{pending_friend_request_id}}")'>cancel</span>
-  					<span id="id_confirm_{{id}}" class="confirm-friend-request material-icons p-1" onclick='triggerAcceptFriendRequest("{{pending_friend_request_id}}")'>check</span>
+					<span class="friend-text align-items-center mr-2">Accept Friend Request</span> 
+					<button  id="id_cancel_{{id}}" class="btn btn-sm btn-danger" onclick='triggerDeclineFriendRequest("{{pending_friend_request_id}}")' style="margin-left: 5px">Cancel</button>
+  					<button id="id_confirm_{{id}}" class="btn btn-sm btn-success" onclick='triggerAcceptFriendRequest("{{pending_friend_request_id}}")' style="margin-left: 5px">Accept</span>
 				</div>
 			</div>
 			{% endif %}
@@ -237,7 +237,7 @@
 	}
 
 	function triggerAcceptFriendRequest(friend_request_id){
-		//acceptFriendRequest(friend_request_id, onFriendRequestAccepted)
+		acceptFriendRequest(friend_request_id, onFriendRequestAccepted)
 	}
 
 	function triggerDeclineFriendRequest(friend_request_id){
@@ -248,7 +248,7 @@
  
 
 {% include 'friend/snippets/send_friend_request.html' %}
-{#% include 'snippets/accept_friend_request.html' %#}
+{% include 'friend/snippets/accept_friend_request.html' %}
 {#% include 'snippets/decline_friend_request.html' %#}
 {#% include 'snippets/cancel_friend_request.html' %#}
 {#% include 'snippets/remove_friend.html' %#}
