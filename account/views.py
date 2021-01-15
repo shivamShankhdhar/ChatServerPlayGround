@@ -12,11 +12,11 @@ import base64
 import requests
 from django.core import files
 
-
 from account.forms import RegistrationForm, AccountAuthenticationForm, AccountUpdateForm
 from account.models import Account
-
-
+from friend.models import FriendList, FriendRequest
+from friend.utils import get_friend_request_or_false
+from friend.friend_request_status import FriendRequestStatus
 TEMP_PROFILE_IMAGE_NAME = "temp_profile_image.png"
 
 # This is basically almost exactly the same as friends/friend_list_view
@@ -131,20 +131,53 @@ def account_view(request, *args, **kwargs):
 		context['profile_image'] = account.profile_image.url
 		context['hide_email'] = account.hide_email
 		# context['is_private'] = account.is_private
+		# try to catch friend list 
+		try:
+			friend_list = FriendList.objects.get(user = account)
+			# if friend list doen't exist, go ahead and create one 
+		except FriendList.DoesNotExist:
+			friend_list = FriendList(user = account)
+			friend_list.save()
+		friends = friend_list.friends.all()
+		context['friends'] = friends
 
 		# Define template variables
 		is_self = True
 		is_friend = False
+		request_sent = FriendRequestStatus.NO_REQUEST_SENT.value
+		friend_requests = None
+
 		user = request.user
 		if user.is_authenticated and user != account:
 			is_self = False
+			if friends.filter(pk = user.id):
+				is_friend = True
+			else:
+				is_friend = False
+				#  CASE1:Request has been sent from THEM to YOU: FriendRequestStatus.THEM_SENT_TO_YOU
+				if get_friend_request_or_false(sender = account, receiver = user) != False:
+					request_sent = FriendRequestStatus.THEM_SENT_TO_YOU.value
+					context['pending_friend_request_id'] = get_friend_request_or_false(sender = account, receiver = user).id
+				# CASE2: Request has been sent from YOU TO THEM: FriendRequestStatus.YOU_SENT_TO_THEM
+				elif get_friend_request_or_false(sender = account, receiver = user) != False:
+					request_sent = FriendRequestStatus.YOU_SENT_TO_THEM.value
+				#CASE3: no friend request sent
+				else:
+					request_sent = FriendRequestStatus.NO_REQUEST_SENT.value
 		elif not user.is_authenticated:
 			is_self = False
+		else:
+			try:
+				friend_requests = FriendRequest.objects.filter(receiver = user, is_active = True)
+			except :pass
 			
 		# Set the template variables to the values
 		context['is_self'] = is_self
 		context['is_friend'] = is_friend
 		context['BASE_URL'] = settings.BASE_URL
+		context['request_sent'] = request_sent
+		context['friend_requests'] = friend_requests
+
 		return render(request, "account/account.html", context)
 
 def save_temp_profile_image_from_base64String(imageString, user):
@@ -192,7 +225,8 @@ def crop_image(request, *args, **kwargs):
 			cv2.imwrite(url, crop_img)
 
 			# delete the old image
-			user.profile_image.delete()
+			if user.profile_image.path != "default/default.png":
+				user.profile_image.delete()
 
 			# Save the cropped image to user model
 			user.profile_image.save("profile_image.png", files.File(open(url, 'rb')))
