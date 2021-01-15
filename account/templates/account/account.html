@@ -121,14 +121,14 @@
 						{% if request_sent == 1 %}
 						<div class="d-flex flex-column align-items-center pt-4">
 							<button class="btn btn-danger" id="id_cancel_friend_request_btn">
-								Cancel Friend Request <span class="material-icons">send</span>
+								Cancel Friend Request 
 							</button>
 						</div>
 						{% endif %}
 						<!-- No requests have been sent -->
 						{% if request_sent == -1 %}
 						<div class="d-flex flex-column align-items-center pt-4">
-							<button class="btn btn-primary" id="id_send_friend_request_btn" style="width: 200px;text-align: center;line-height: 30px;background-color: #000;border: none;margin-bottom: 10px">
+							<button class="btn btn-primary" id="id_send_friend_request_btn" >
 								Send Friend Request
 							</button>
 						</div>
@@ -149,8 +149,8 @@
 				
 				<!-- TODO -->
 				<!-- Friend list link -->
-		  		<div class=" btn" style="width: 200px;text-align: center;line-height: 30px;background-color: #000">
-					<a href="#"  style="text-decoration: none;color: #fff">
+		  		<div class=" d-flex flex-column align-items-center pt-4" >
+					<a href="#" style="text-decoration: none;" class="btn btn-sm btn-primary">
 						<div class="d-flex flex-row ">
 							<span class="material-icons" style="margin-right: 3px">people</span> <span class="">Friends ( {{friends|length}} )</span>
 						</div>
@@ -189,7 +189,6 @@
 	</div>
 </div>
 
-
 <script type="text/javascript">
 
 	// called from base_js.html
@@ -219,7 +218,7 @@
 	var sendFriendRequestBtn = document.getElementById("id_send_friend_request_btn")
 	if (sendFriendRequestBtn != null){
 		sendFriendRequestBtn.addEventListener("click", function(){
-			//sendFriendRequest("{{id}}", onFriendRequestSent)
+			sendFriendRequest("{{id}}", onFriendRequestSent)
 		})
 	}
 
@@ -246,8 +245,9 @@
 	}
 	
 </script>
+ 
 
-{#% include 'snippets/send_friend_request.html' %#}
+{% include 'friend/snippets/send_friend_request.html' %}
 {#% include 'snippets/accept_friend_request.html' %#}
 {#% include 'snippets/decline_friend_request.html' %#}
 {#% include 'snippets/cancel_friend_request.html' %#}
