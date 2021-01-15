@@ -163,9 +163,9 @@
 			{% if friend_requests %}
 			<div class=" mx-2 px-4 pb-4 ">
 				<!-- Friend requests -->
-		  		<div class=" btn btn-primary " style="width: 200px;text-align: center;line-height: 30px;background-color: #000;border: none;">
-					<a href="#" style="text-decoration: none;color: #fff">
-						<div class="d-flex flex-row ">
+		  		<div class=" btn btn-primary" >
+					<a href="{% url 'friend:friend-requests' user_id=id %}" style="text-decoration: none;color: #fff">
+						<div class="d-flex flex-row" >
 							<span class="material-icons " style="margin-right: 1px">playlist_add</span> <span class="">Friend Requests ( {{friend_requests|length}} )</span>
 						</div>
 					</a>

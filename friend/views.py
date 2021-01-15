@@ -1,9 +1,26 @@
 from django.http import HttpResponse
 import json
-
+from django.shortcuts import render, redirect
 from account.models import Account
 from friend.models import FriendRequest
 
+def friend_request_view(request, *args, **kwargs):
+	template_name = 'friend/friend_request.html'
+	context = {}
+	user = request.user
+	print(user.id)
+	if user.is_authenticated:
+		user_id = kwargs.get("user_id")
+		print(user_id)
+		account = Account.objects.get(pk=user_id)
+		if account == user:
+			friend_requests = FriendRequest.objects.filter(receiver = account, is_active = True)
+			context['friend_requests'] = friend_requests
+		else:
+			return HttpResponse("You can't view someone ele user's friend requests.")
+	else:
+		return redirect("login")
+	return render(request, template_name, context)
 
 def send_friend_request(request, *args, **kwargs):
 	user = request.user

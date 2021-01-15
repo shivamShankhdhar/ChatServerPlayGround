@@ -223,9 +223,9 @@ def crop_image(request, *args, **kwargs):
 			cv2.imwrite(url, crop_img)
 
 			# delete the old image
-			if user.profile_image.path != "default/default.png":
+			if user.profile_image.url != "/media/default/default.png":
 				user.profile_image.delete()
-
+			
 			# Save the cropped image to user model
 			user.profile_image.save("profile_image.png", files.File(open(url, 'rb')))
 			user.save()
