@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     # my apps 
     'personal',
     'account',
+    'friend',
 
     # third party apps
 
